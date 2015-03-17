@@ -8,18 +8,18 @@ Advertising agencies across the city are buzzing witth excitement at the news an
 
 For instance suppose the Siruseri skyline appears as follows, where the number at the top of each building specifies its height while the number at the bottom of each building specifies its width, both quantities measured in metres.
 
-****Input format
+*Input format*
 
 The first line of input is an integer N, the number of skyscrapers. This is followed by N lines of input describing the skyscrapers in left to right order. Each of these lines consists of two integers W and H, specifying the width and height of the skyscraper, respectively.
 
-******Output format
+*Output format*
 
 A single integer denoting the maximum area of a legal hoarding given the arrangement of skyscrapers.
 Test Data
 
 In 10% of the inputs, N = 105. In the remaining 90% of the inputs, you may assume 1 ≤ N ≤ 5000. In 10% of the inputs, 1 ≤ N ≤ 500.
 
-*******Sample input
+*Sample input*
 
 8
 20 30
@@ -31,7 +31,7 @@ In 10% of the inputs, N = 105. In the remaining 90% of the inputs, you may assum
 30 80
 20 40
 
-********Sample output
+*Sample output*
 3000
 
 In this situation, the biggest legal hoarding spans the second, third and fourth buildings with an area of 60 × 50 = 3000 square metres. The next best possibility is a hoarding of 70 × 40 = 2800 square metres, spanning the last three buildings.
