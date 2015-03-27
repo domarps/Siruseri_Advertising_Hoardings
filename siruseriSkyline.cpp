@@ -1,3 +1,6 @@
+// (IARCS IOI Training Camp 2006, Preyas Popat)
+// Problem Statement = http://www.iarcs.org.in/inoi/online-study-material/problems/advertising-hoardings-soln.php#solution
+
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -17,7 +20,12 @@ class skyscraper
   public:
          int height;
          int width;
+  bool operator<(const skyscraper &s2) const 
+  {
+      return height >  s2.height;
+  }
 };
+
 
 
 struct sortH
@@ -66,7 +74,10 @@ int main()
     int N,i,j,k,l,x,y,z;
     int H;
     int W;
-    int Amax,LA,RA,A,S;
+    int Amax,max_start,max_end;
+    int curr_i,curr_A,current_width,current_height;
+    int high_i,low_i;
+    int root_element;
     cin >> N;
     //Union of children
     parent.resize(N);
@@ -80,6 +91,8 @@ int main()
     
     for(i = 0; i < N; i++)
     {
+       current_width = 0;
+       
        cin >> skyline[i].width;
        cin >> skyline[i].height;
        p[i].height = skyline[i].height;
@@ -87,47 +100,58 @@ int main()
        make_set(i,skyline[i].height,skyline[i].width);
     }
     sort(p,p+N); 
-    H = p[0].height;
-    W = skyline[p[0].i].width;
-    Amax = H * W;
-    for(i = 1; i < N; i++)
+    Amax   =   0;
+    high_i =   N;
+    low_i  =   -1;
+    for(i = 1; i < (N-1); i++) //please take note. 
     {
+      current_width  = 0; 
       
       j =  p[i].i;
       k =  j-1;
       l =  j+1;
-      S =  skyline[j].height * skyline[j].width;    
       x =  skyline[j].height;
       y =  skyline[k].height; 
       z =  skyline[l].height;
-      if(x < y)
+      if(x <= y)
       {
           set_union(k,j);
-          ht[k] =  x;
-          wt[k]+= skyline[k].width;
-          LA = ht[k] * wt[k];
       }    
-      if(x < z)
+      if(x <= z)
       {
           set_union(l,j);
-          ht[l] = x; 
-          wt[l] += skyline[l].width;
-          RA = ht[l] * wt[l];
       }
-      if(S < LA) S = LA;
-      if(S < RA) S = RA;
-
-      if(Amax < S) Amax = S; 
-      
+      //Whatever shit happened up here, happened 
+      //Now we just may have a parent here for element i
+      curr_i = j;//fix me
+      root_element = find(curr_i);
+      current_height = skyline[j].height;
+      while(curr_i > 0 && root_element == find(curr_i))
+      {
+         current_width += skyline[curr_i].width;
+         //cout << skyline[curr_i].height << '\t';
+         if(current_height > skyline[curr_i].height) current_height = skyline[curr_i].height;  
+         curr_i--;
+      }
+      low_i = curr_i; //Lower Boundary Found!!
+      curr_i = j+1;//fix me
+      while(curr_i < N && root_element == find(curr_i))
+      { 
+         current_width += skyline[curr_i].width;
+         //cout << skyline[curr_i].height << '\t';
+         if(current_height > skyline[curr_i].height) current_height = skyline[curr_i].height;  
+         curr_i++;
+      }
+//      cout << endl;
+      high_i = curr_i; //Higher Boundary Found Like a Boss
+      curr_A = current_height * current_width;
+//      cout << j << ' ' << current_height << ' ' << current_width << endl;
+      if(curr_A > Amax)
+      {
+         Amax = curr_A;
+         max_start = high_i;
+         max_end   = low_i;
+      }
     }  
-//    if(skyline[j].height
-//  }
-//    for(int i = 0; i < N; i++)
-//    {
-//       cout << skyline[i].height << ' ' << skyline[i].width << endl;
-//    }
-//    for(int i = 0; i < N; i++)
-//    {
-       cout << Amax <<  endl;
-//    }
+    cout << Amax << endl;
 }
